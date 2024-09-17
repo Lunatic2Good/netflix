@@ -1,32 +1,26 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")  // Primary connection string
+  directUrl = env("DIRECT_URL")    // Optional direct connection string
 }
 
 model Movie {
-  id Int @id @default(autoincrement())
-  title String
-  description String
+  id           Int     @id @default(autoincrement())
+  title        String
+  description  String
   thumbnailUrl String
-  videoUrl String
-  duration String
-  genre String
+  videoUrl     String
+  duration     String
+  genre        String
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String
-  email String @unique
+  id       Int     @id @default(autoincrement())
+  username String     // Added unique constraint to username
+  email    String  @unique     // Email is already unique
   password String
 }
