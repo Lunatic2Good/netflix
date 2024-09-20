@@ -4,6 +4,8 @@ import MovieList from "../components/MovieList";
 import NavBar from "../components/Navbar";
 import useMoviesList from "../hooks/useMoviesList";
 import LoadingCards from "../components/LoadingCards";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 export default function BrowsePage() {
   const [offset, setOffset] = useState(0);
@@ -11,6 +13,9 @@ export default function BrowsePage() {
   // console.log({ data, loading, error });
 
   const observer = useRef<null | IntersectionObserver>(null); //useRef is used to persist this reference across re-renders
+
+  const { user, isLoading } = useSelector((state: RootState) => state.user.value);
+  console.log({ user, isLoading });
 
   const lastElementRef = useCallback((node: HTMLDivElement) => { //just like memo for function, to prevent unnecessary calls
     if(loading) return; // If data is loading, do not set up the observer

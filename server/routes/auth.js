@@ -103,7 +103,7 @@ router.post("/login", async (req, res) => {
 
 router.get("/me", async (req, res) => {
     const bearerToken = req.headers.authorization;
-    console.log(bearerToken);
+    // console.log(bearerToken);
     if(!bearerToken) return res.send(null);
     const jwt = bearerToken.split("Bearer ")[1];
     if(!jwt) return res.send(null);
