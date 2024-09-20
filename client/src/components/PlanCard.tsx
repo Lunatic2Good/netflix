@@ -1,14 +1,20 @@
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Plan } from "../hooks/usePlans";
 
-export default function PlanCard({ plan }: {plan: Plan}) {
+interface PlanProps {
+  plan: Plan;
+  selectedSession: string | null;
+  setSelectedSession: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+export default function PlanCard({ plan, selectedSession, setSelectedSession }: PlanProps) {
   const { name, price, canDownload, canWatchSouthPark } = plan;
 
   return (
-    <div className="border rounded p-3 h-[350px] w-full pointer mr-3">
+    <div className={`border rounded p-3 h-[350px] w-full pointer mr-3 cursor-pointer ${selectedSession === price.id ? "border-3 border-black" : null}`} onClick={() => setSelectedSession(price.id)}>
       <div className="rounded bg-gradient-to-r from-cyan-500 to-blue-500 w-full p-3 text-white font-bold">
         <h3 className="text-2xl">{name}</h3>
-        <p className="font-light">$5.00</p>
+        <p className="font-light">Rs {price.amount/100.00}</p>
       </div>
 
       <div className="border-b py-4 flex text-reg items-center">
@@ -17,7 +23,7 @@ export default function PlanCard({ plan }: {plan: Plan}) {
         </div>
         <div className="ml-3">
           <h3 className="text-gray-600">Monthly price</h3>
-          <h3 className="font-semibold">$5.00</h3>
+          <h3 className="font-semibold">Rs {price.amount/100.00}</h3>
         </div>
       </div>
 

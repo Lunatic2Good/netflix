@@ -130,7 +130,7 @@ export default function LoginPage() {
               />
               <input
                 type="submit"
-                className="bg-red-400 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700"
+                className="bg-red-400 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 cursor-pointer"
               />
               {authError && <p className="text-red-500">{authError}</p>}
             </form>
