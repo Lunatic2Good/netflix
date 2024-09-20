@@ -13,5 +13,6 @@ app.get('/', (req, res) => {
 
 app.use("", require("./routes/movies"));
 app.use("/auth", require("./routes/auth"));
+app.use("/sub", require("./routes/sub"));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

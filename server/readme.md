@@ -11,3 +11,6 @@ client library
 -universal cookie
 -@reduxjs/toolkit
 -react-redux
+
+for payments use-
+-stripe
