@@ -1,6 +1,7 @@
 const { stripe } = require("../utils/Stripe");
 const router = require("express").Router();
 const checkAuth = require("../middleware");
+const fetchSubscription = require("../services/fetchSubscription");
 
 router.get("/products", async (req, res) => {
     const response = await stripe.products.list({
@@ -45,26 +46,9 @@ router.post("/session", async (req, res) => { //creating new session for every p
 
 router.get("/subscription", checkAuth, async (req, res) => { //to give what subscription user have
     // return res.json(req.user);
-    const response = await stripe.customers.search({
-        query: `email:\'${req.user.email}\'`,
-    });
+    const subscription = await fetchSubscription(req.user.email);
 
-    if(response.data[0]) {
-        const customer = response.data[0];
-
-        const subscriptions = await stripe.subscriptions.list({ //as it need customer id to retrieve subscription, we find customer id above
-            customer: customer.id,
-            expand: ["data.plan.product"],
-        });
-
-        if(subscriptions.data[0]) {
-            return res.json(subscriptions.data[0].plan.product);
-        } else {
-            return res.json(null);
-        }
-    } else {
-        return res.json(null);
-    }
+    res.json(subscription);
 });
 
 module.exports = router;

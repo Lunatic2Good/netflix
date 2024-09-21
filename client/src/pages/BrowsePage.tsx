@@ -6,6 +6,7 @@ import useMoviesList from "../hooks/useMoviesList";
 import LoadingCards from "../components/LoadingCards";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import { Navigate } from "react-router-dom";
 
 export default function BrowsePage() {
   const [offset, setOffset] = useState(0);
@@ -35,6 +36,8 @@ export default function BrowsePage() {
     // If there is a valid node, observe it
     if(node) observer.current.observe(node);
   }, [loading]);
+
+  if(error === "Unauthorized; no plan") return <Navigate to="/plans"/>
 
   return (
     <div>
