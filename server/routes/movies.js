@@ -29,7 +29,7 @@ router.get('/movies/list', checkAuth, async (req, res) => {
             ],
         });
     }
-
+    
     const offset = parseInt(req.query.offset);
     const count = await prisma.movie.count();
     const movies = await prisma.movie.findMany({
@@ -40,11 +40,24 @@ router.get('/movies/list', checkAuth, async (req, res) => {
 });
 
 // router.get('/movie/:id', (req, res) => {
-//     const id = req.params.id;
-//     const movie = movies.find((m) => m.id === id);
+    //     const id = req.params.id;
+    //     const movie = movies.find((m) => m.id === id);
 //     return res.send(movie)
 // });
 router.get('/movie/:id', checkAuth, async (req, res) => {
+    const subscription = await fetchSubscription(req.user.email);
+    // console.log(subscription);
+    
+    if(!subscription) {
+        return res.status(403).json({
+            errors: [
+                {
+                    msg: "Unauthorized; no plan",
+                },
+            ],
+        });
+    }
+    
     const id = req.params.id;
     // console.log(typeof(id))
     const movie = await prisma.movie.findUnique({
@@ -52,6 +65,17 @@ router.get('/movie/:id', checkAuth, async (req, res) => {
             id: parseInt(id),
         }
     });
+
+    if(movie.title === "South Park" && subscription.name === "Basic Plan") {
+        return res.status(403).json({
+            errors: [
+                {
+                    msg: "Unauthorized; need Premium plan",
+                },
+            ],
+        });
+    }
+    
     return res.send(movie)
 });
 
